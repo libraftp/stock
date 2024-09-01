@@ -5,3 +5,4 @@ datetime
 pandas
 emoji
 scipy
+gunicorn

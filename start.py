@@ -35,5 +35,4 @@ def respond_to_message(event):
     bot_api.reply_message(event.reply_token, response_message)
 
 if __name__ == "__main__":
-    port_number = int(os.getenv('PORT', 10000))
-    app.run(host='0.0.0.0', port=port_number)
+    app.run(host='0.0.0.0', port=5000)
