@@ -57,6 +57,6 @@ def respond_to_message(event):
     print("Message responded successfully")
 
     return 'OK'
-
-port_number = int(os.getenv('PORT', 5000))
-app.run(host='0.0.0.0', port=port_number)
+if __name__ == "__main__":
+    port_number = int(os.getenv('PORT', 5000))
+    app.run(host='0.0.0.0', port=port_number)
