@@ -2,9 +2,17 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import sys
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
 
-stock ='2002'
+stock ='中鋼'
 date = '20240712'
+
 
 """
  # 要抓取的網址
@@ -41,13 +49,13 @@ if ul_element:
     # 查找<ul>元素中的所有<span>元素
     spans = ul_element.find_all('span')
     
-    # 遍历这些<span>元素，并筛选出非空白的文本内容
+    # 選出非空白的文本内容
     for i in spans:
         text = i.text
         if text:  # 如果文本内容非空
             stock_text.append(text)
 
-# 打印存储的非空白<span>内容的列表
+# 非空白<span>内容的列表
 for i in range(0, len(stock_text) - 1, 2):
     print(f"{stock_text[i]}\t{stock_text[i+1]}")
 """
@@ -66,6 +74,7 @@ req = requests.get(url)
 if req.status_code != 200:
     print(f"股票代码 {stock} 不存在")
     sys.exit()  # 退出程序
+
 
 # 解析 JSON
 json = req.json()

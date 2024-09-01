@@ -14,7 +14,7 @@ bot_handler = WebhookHandler('46050724507c695901b944404aa4fda3')  # 這裡填入
 bot_api.push_message('U6688362b6a234c9f16a095b8b91a8cae', TextSendMessage(text='啟動!!!!!!'))
 
 # 定義一個路由來處理 /callback 的請求
-@app.route("/callback", methods=['POST'])
+@app.route("/feedback", methods=['POST'])
 def handle_request():
     signature_header = request.headers['X-Line-Signature']
     request_body = request.get_data(as_text=True)

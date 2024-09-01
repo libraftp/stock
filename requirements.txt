@@ -6,3 +6,5 @@ datetime
 pandas
 emoji
 scipy
+webdriver_manager
+msedge-selenium-tools
