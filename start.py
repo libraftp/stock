@@ -1,20 +1,19 @@
-import os
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import TextSendMessage, MessageEvent, TextMessage
+import os
 
-# 建立 Flask 應用
 app = Flask(__name__)
 
 # 設定 Line Bot API 和 WebhookHandler
-bot_api = LineBotApi('ibxVmiLsI9lWbS+R+wr+wQcZIZu73+bHlr8jn4edebUYYYB57IWPgrUpwcvCKf0HGzgsDg7JE0JbZVdQBAxEe6NW10Nob5zmrtgqCGzHfiqy/2Cp1QHKnPclN2kWYywmR7LmGLLQx4QrOxdTMJaRLgdB04t89/1O/w1cDnyilFU=')  # 這裡填入你的 Channel Access Token
-bot_handler = WebhookHandler('46050724507c695901b944404aa4fda3')  # 這裡填入你的 Channel Secret
+bot_api = LineBotApi(os.getenv('ibxVmiLsI9lWbS+R+wr+wQcZIZu73+bHlr8jn4edebUYYYB57IWPgrUpwcvCKf0HGzgsDg7JE0JbZVdQBAxEe6NW10Nob5zmrtgqCGzHfiqy/2Cp1QHKnPclN2kWYywmR7LmGLLQx4QrOxdTMJaRLgdB04t89/1O/w1cDnyilFU='))
+bot_handler = WebhookHandler(os.getenv('46050724507c695901b944404aa4fda3'))
 
-# 啟動時發送訊息通知
-bot_api.push_message('U6688362b6a234c9f16a095b8b91a8cae', TextSendMessage(text='啟動!!!!!!'))
+@app.route('/')
+def home():
+    return 'Welcome to the Flask app!'
 
-# 定義一個路由來處理 /feedback 的請求
 @app.route("/feedback", methods=['POST'])
 def handle_request():
     signature_header = request.headers['X-Line-Signature']
@@ -28,11 +27,11 @@ def handle_request():
 
     return 'OK'
 
-# 處理訊息事件的函數
 @bot_handler.add(MessageEvent, message=TextMessage)
 def respond_to_message(event):
     response_message = TextSendMessage(text=event.message.text)
     bot_api.reply_message(event.reply_token, response_message)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    port_number = int(os.getenv('PORT', 5000))
+    app.run(host='0.0.0.0', port=port_number)
