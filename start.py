@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -13,7 +14,7 @@ bot_handler = WebhookHandler('46050724507c695901b944404aa4fda3')  # 這裡填入
 # 啟動時發送訊息通知
 bot_api.push_message('U6688362b6a234c9f16a095b8b91a8cae', TextSendMessage(text='啟動!!!!!!'))
 
-# 定義一個路由來處理 /callback 的請求
+# 定義一個路由來處理 /feedback 的請求
 @app.route("/feedback", methods=['POST'])
 def handle_request():
     signature_header = request.headers['X-Line-Signature']
@@ -33,8 +34,6 @@ def respond_to_message(event):
     response_message = TextSendMessage(text=event.message.text)
     bot_api.reply_message(event.reply_token, response_message)
 
-# 程序入口
-import os
 if __name__ == "__main__":
-    port_number = int(os.environ.get('PORT', 5000))
+    port_number = int(os.getenv('PORT', 10000))
     app.run(host='0.0.0.0', port=port_number)
